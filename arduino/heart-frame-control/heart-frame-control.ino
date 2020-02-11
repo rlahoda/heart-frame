@@ -50,12 +50,9 @@ void changeDisplay() {
     {
       case 0: solidRed(); break;
       case 1: outlineWipe(); break;
-      case 2:  theaterChase(strip.Color(255,   0,   0), 50); break;
-      case 3:  rainbow(10); break;
-        //      case 4: heartBeat(); break;
-        //      case 5: chiefsSolid(); break;
-        //      case 6: redTwinkle(); break;
-        //      case 7: rainbowCycle(); break;
+      case 2: outlineBrightnessWipe(); break;
+      case 3: theaterChase(strip.Color(255,   0,   0), 50); break;
+      case 4: rainbow(10); break;
     }
   }
 }
@@ -157,4 +154,16 @@ void outlineBrightnessWipe() {
     }
     delay(100);
   }
+}
+
+
+void solidChiefs() {
+  int mid = (NUM_PIXELS / 2) - 1;
+  for (int i = 0; i < mid; i++) {
+    strip.setPixelColor(i, 0xE31837);
+  }
+  for (int i = mid + 1; i < NUM_PIXELS; i++) {
+    strip.setPixelColor(i, 0xFFB81C);
+  }
+  strip.show();
 }
