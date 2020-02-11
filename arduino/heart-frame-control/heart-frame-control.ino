@@ -21,7 +21,7 @@ void setup() {
 }
 
 void loop() {
-  changeDisplay();
+  setDisplay();
 }
 
 void sequenceSelect() {
@@ -32,7 +32,7 @@ void sequenceSelect() {
   }
 }
 
-void changeDisplay() {
+void setDisplay() {
   {
     switch (seq)
     {
