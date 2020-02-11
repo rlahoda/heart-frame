@@ -7,14 +7,10 @@
 #define NUM_PIXELS 144
 #define BUTTON_PIN 2
 
-// Variables
+// Global Variables
 int seq = 0;
-//volatile int touchState = 0;
-
 
 Adafruit_NeoPixel_ZeroDMA strip(NUM_PIXELS, PIN, NEO_GRB);
-
-//  function for creating external interrupts at pin1 on Rising (LOW to HIGH)
 
 void setup() {
   Serial.begin(9600);
@@ -22,20 +18,12 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), sequenceSelect, RISING);
   strip.begin();
   strip.setBrightness(5);
-  //  strip.Color(255, 0, 0);
-  //  strip.show(); // Initialize to solid red
 }
 
 void loop() {
-  //  changeDisplay();
-  solidRed();
-  // wait for button to be pressed
-  // on press - run sequence incrementer
-  //if(buttonPressed) {
-  //  sequenceSelect();
-  //}
-
+  changeDisplay();
 }
+
 void sequenceSelect() {
   if (seq < 6) {
     seq = seq + 1;
@@ -53,6 +41,7 @@ void changeDisplay() {
       case 2: outlineBrightnessWipe(); break;
       case 3: theaterChase(strip.Color(255,   0,   0), 50); break;
       case 4: rainbow(10); break;
+      case 5: solidChiefs(); break;
     }
   }
 }
