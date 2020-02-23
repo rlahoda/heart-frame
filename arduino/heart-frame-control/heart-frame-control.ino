@@ -4,36 +4,55 @@
 
 // Definitions
 #define PIN 4
-#define NUM_PIXELS 144
-#define BUTTON_PIN 2
+#define NUM_PIXELS 104
+const int BUTTON_PIN = 2;
+//const byte BUTTON_PIN = 2;
 
 // Global Variables
-int seq = 0;
-
+//int seq = 2;
+int lastTime = 0;
+int buttonState = 0;
 Adafruit_NeoPixel_ZeroDMA strip(NUM_PIXELS, PIN, NEO_GRB);
+long seq;
 
 void setup() {
   Serial.begin(9600);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), sequenceSelect, RISING);
   strip.begin();
-  strip.setBrightness(5);
+  strip.setBrightness(50);
+   randomSeed(analogRead(0));
+   seq = random(5);
+   Serial.println(seq);
 }
+
+
 
 void loop() {
   setDisplay();
+//   buttonState = digitalRead(BUTTON_PIN);
+//if(millis() - lastTime >= 6000) {
+//  lastTime = millis();
+//  sequenceSelect();
+//}
+// if (buttonState == LOW) {
+//    // turn LED on:
+//   sequenceSelect();
+//  } 
 }
 
 void sequenceSelect() {
-  if (seq < 6) {
+  Serial.println("click");
+  if (seq < 5) {
     seq = seq + 1;
   } else {
     seq = 0;
   }
+  Serial.println(seq);
 }
 
 void setDisplay() {
-  {
+  Serial.println(seq);
+  
     switch (seq)
     {
       case 0: solidRed(); break;
@@ -43,7 +62,7 @@ void setDisplay() {
       case 4: rainbow(10); break;
       case 5: solidChiefs(); break;
     }
-  }
+  
 }
 
 void solidRed() {
@@ -55,7 +74,7 @@ void solidRed() {
 
 void outlineWipe() {
   int mid = (NUM_PIXELS / 2) - 1;
-  while (true) {
+  while (seq == 1) {
     for (int a = mid; a >= 0; a--) {
       strip.setPixelColor(a, 0xFF0000);
       int difference = mid - a;
@@ -80,7 +99,7 @@ void outlineWipe() {
 // a la strip.Color(r,g,b) as mentioned above), and a delay time (in ms)
 // between frames.
 void theaterChase(uint32_t color, int wait) {
-  for (int a = 0; a < 10; a++) { // Repeat 10 times...
+  for (int a = 0; a < 1; a++) { // Repeat 10 times...
     for (int b = 0; b < 3; b++) { //  'b' counts from 0 to 2...
       strip.clear();         //   Set all pixels in RAM to 0 (off)
       // 'c' counts up from 'b' to end of strip in steps of 3...
@@ -119,7 +138,7 @@ void rainbow(int wait) {
 
 void outlineBrightnessWipe() {
   int mid = (NUM_PIXELS / 2) - 1;
-  while (true) {
+  while (seq == 2) {
     for (int a = mid; a >= 0; a--) {
       strip.setPixelColor(a, 255, 0, 0);
       int difference = mid - a;
@@ -149,7 +168,7 @@ void outlineBrightnessWipe() {
 void solidChiefs() {
   int mid = (NUM_PIXELS / 2) - 1;
   for (int i = 0; i < mid; i++) {
-    strip.setPixelColor(i, 0xE31837);
+    strip.setPixelColor(i, 0xFF0000);
   }
   for (int i = mid + 1; i < NUM_PIXELS; i++) {
     strip.setPixelColor(i, 0xFFB81C);
